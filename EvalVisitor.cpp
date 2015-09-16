@@ -11,8 +11,10 @@
 
 #include <array>
 
-std::array<int, 2> visitBinary(EvalVisitor& v, BinaryExpr& expr) {
-  std::array<int, 2> result;
+using TwoArgExpr = std::array<int, 2>;
+
+TwoArgExpr visitBinary(EvalVisitor& v, BinaryExpr& expr) {
+  TwoArgExpr result;
 
   expr.leftExpr->accept(v);
   result[0] = v.result;
@@ -24,8 +26,8 @@ std::array<int, 2> visitBinary(EvalVisitor& v, BinaryExpr& expr) {
 }
 
 void EvalVisitor::visit(AddExpr& expr) {
-  std::array<int, 2> lr = visitBinary(*this, expr);
-  result = lr[0] + lr[1];
+  TwoArgExpr arg = visitBinary(*this, expr);
+  result = arg[0] + arg[1];
 }
 
 void EvalVisitor::visit(Digit& expr) {
@@ -33,21 +35,21 @@ void EvalVisitor::visit(Digit& expr) {
 }
 
 void EvalVisitor::visit(DivExpr& expr) {
-  std::array<int, 2> lr = visitBinary(*this, expr);
-  result = lr[0] / lr[1];
+  TwoArgExpr arg = visitBinary(*this, expr);
+  result = arg[0] / arg[1];
 }
 
 void EvalVisitor::visit(ModExpr& expr) {
-  std::array<int, 2> lr = visitBinary(*this, expr);
-  result = lr[0] % lr[1];
+  TwoArgExpr arg = visitBinary(*this, expr);
+  result = arg[0] % arg[1];
 }
 
 void EvalVisitor::visit(MultiExpr& expr) {
-  std::array<int, 2> lr = visitBinary(*this, expr);
-  result = lr[0] * lr[1];
+  TwoArgExpr arg = visitBinary(*this, expr);
+  result = arg[0] * arg[1];
 }
 
 void EvalVisitor::visit(SubExpr& expr) {
-  std::array<int, 2> lr = visitBinary(*this, expr);
-  result = lr[0] - lr[1];
+  TwoArgExpr arg = visitBinary(*this, expr);
+  result = arg[0] - arg[1];
 }
