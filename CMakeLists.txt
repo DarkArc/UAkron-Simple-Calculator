@@ -3,18 +3,20 @@ cmake_minimum_required(VERSION 3.1)
 # Project Declaration
 project(CalcLAngCore CXX)
 
+file(GLOB expr_SRC
+    "Expr/*.cpp"
+)
+
 # Source Declaration
-add_executable(CalcLangCore
-  AddExpr.cpp
-  BinaryExpr.cpp
-  Digit.cpp
-  DivExpr.cpp
+add_library(CalcLangCore
+  ${expr_SRC}
+)
+
+add_executable(CalcEval
   EvalVisitor.cpp
-  Expr.cpp
-  ModExpr.cpp
-  MultiExpr.cpp
-  SubExpr.cpp
   TestMain.cpp
 )
+
+target_link_libraries(CalcEval CalcLangCore)
 
 set(CMAKE_CXX_FLAGS "-Wall -std=c++11")

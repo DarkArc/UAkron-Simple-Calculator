@@ -1,7 +1,7 @@
 #ifndef EXPR_HPP
 #define EXPR_HPP
 
-#include "Visitor.hpp"
+#include "../Visitor.hpp"
 
 struct Expr {
   virtual ~Expr();

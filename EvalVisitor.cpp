@@ -1,13 +1,13 @@
 #include "EvalVisitor.hpp"
 
-#include "BinaryExpr.hpp"
+#include "Expr/BinaryExpr.hpp"
 
-#include "AddExpr.hpp"
-#include "Digit.hpp"
-#include "DivExpr.hpp"
-#include "ModExpr.hpp"
-#include "MultiExpr.hpp"
-#include "SubExpr.hpp"
+#include "Expr/AddExpr.hpp"
+#include "Expr/Digit.hpp"
+#include "Expr/DivExpr.hpp"
+#include "Expr/ModExpr.hpp"
+#include "Expr/MultiExpr.hpp"
+#include "Expr/SubExpr.hpp"
 
 #include <array>
 
