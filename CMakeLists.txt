@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.1)
 
 # Project Declaration
-project(CalcLAngCore CXX)
+project(CalcLangCore CXX)
+project(CalcEval CXX)
 
 file(GLOB expr_SRC
     "Expr/*.cpp"
