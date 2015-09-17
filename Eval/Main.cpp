@@ -1,11 +1,11 @@
 #include "EvalVisitor.hpp"
 
-#include "Expr/AddExpr.hpp"
-#include "Expr/Digit.hpp"
-#include "Expr/DivExpr.hpp"
-#include "Expr/ModExpr.hpp"
-#include "Expr/MultiExpr.hpp"
-#include "Expr/SubExpr.hpp"
+#include "../Expr/AddExpr.hpp"
+#include "../Expr/Digit.hpp"
+#include "../Expr/DivExpr.hpp"
+#include "../Expr/ModExpr.hpp"
+#include "../Expr/MultiExpr.hpp"
+#include "../Expr/SubExpr.hpp"
 
 #include <iostream>
 

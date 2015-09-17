@@ -1,16 +1,11 @@
 #include "EvalVisitor.hpp"
 
-#include "Expr/BinaryExpr.hpp"
-
-#include "Expr/AddExpr.hpp"
-#include "Expr/Digit.hpp"
-#include "Expr/DivExpr.hpp"
-#include "Expr/ModExpr.hpp"
-#include "Expr/MultiExpr.hpp"
-#include "Expr/SubExpr.hpp"
-
-#include <array>
-
+#include "../Expr/AddExpr.hpp"
+#include "../Expr/Digit.hpp"
+#include "../Expr/DivExpr.hpp"
+#include "../Expr/ModExpr.hpp"
+#include "../Expr/MultiExpr.hpp"
+#include "../Expr/SubExpr.hpp"
 
 void EvalVisitor::visit(AddExpr& expr) {
   result = eval(expr.leftExpr) + eval(expr.rightExpr);

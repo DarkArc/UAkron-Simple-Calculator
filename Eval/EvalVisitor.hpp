@@ -1,8 +1,8 @@
 #ifndef EVALVISITOR_HPP
 #define EVALVISITOR_HPP
 
-#include "Expr/Expr.hpp"
-#include "Visitor.hpp"
+#include "../Expr/Expr.hpp"
+#include "../Visitor.hpp"
 
 struct EvalVisitor : public Visitor {
   int result = 0;
