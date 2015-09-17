@@ -36,4 +36,15 @@ add_executable(CalcSExpr
 
 target_link_libraries(CalcSExpr CalcLangCore)
 
+# Postfix Program
+file(GLOB postfix_SRC
+    "Postfix/*.cpp"
+)
+
+add_executable(CalcPostfix
+  ${postfix_SRC}
+)
+
+target_link_libraries(CalcPostfix CalcLangCore)
+
 set(CMAKE_CXX_FLAGS "-Wall -std=c++11")
