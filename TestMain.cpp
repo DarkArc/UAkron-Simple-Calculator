@@ -16,16 +16,9 @@ int main() {
   AddExpr exprB(exprA, b);
   MultiExpr exprC(exprA, exprB);
 
-  EvalVisitor v;
-
-  v.visit(exprA);
-  std::cout << v.result << std::endl;
-
-  v.visit(exprB);
-  std::cout << v.result << std::endl;
-
-  v.visit(exprC);
-  std::cout << v.result << std::endl;
+  std::cout << eval(exprA) << '\n';
+  std::cout << eval(exprB) << '\n';
+  std::cout << eval(exprC) << '\n';
 
   return 0;
 }

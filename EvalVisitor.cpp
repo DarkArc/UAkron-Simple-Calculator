@@ -11,23 +11,9 @@
 
 #include <array>
 
-using TwoArgExpr = std::array<int, 2>;
-
-TwoArgExpr visitBinary(EvalVisitor& v, BinaryExpr& expr) {
-  TwoArgExpr result;
-
-  expr.leftExpr->accept(v);
-  result[0] = v.result;
-
-  expr.rightExpr->accept(v);
-  result[1] = v.result;
-
-  return result;
-}
 
 void EvalVisitor::visit(AddExpr& expr) {
-  TwoArgExpr arg = visitBinary(*this, expr);
-  result = arg[0] + arg[1];
+  result = eval(expr.leftExpr) + eval(expr.rightExpr);
 }
 
 void EvalVisitor::visit(Digit& expr) {
@@ -35,21 +21,17 @@ void EvalVisitor::visit(Digit& expr) {
 }
 
 void EvalVisitor::visit(DivExpr& expr) {
-  TwoArgExpr arg = visitBinary(*this, expr);
-  result = arg[0] / arg[1];
+  result = eval(expr.leftExpr) / eval(expr.rightExpr);
 }
 
 void EvalVisitor::visit(ModExpr& expr) {
-  TwoArgExpr arg = visitBinary(*this, expr);
-  result = arg[0] % arg[1];
+  result = eval(expr.leftExpr) % eval(expr.rightExpr);
 }
 
 void EvalVisitor::visit(MultiExpr& expr) {
-  TwoArgExpr arg = visitBinary(*this, expr);
-  result = arg[0] * arg[1];
+  result = eval(expr.leftExpr) * eval(expr.rightExpr);
 }
 
 void EvalVisitor::visit(SubExpr& expr) {
-  TwoArgExpr arg = visitBinary(*this, expr);
-  result = arg[0] - arg[1];
+  result = eval(expr.leftExpr) - eval(expr.rightExpr);
 }

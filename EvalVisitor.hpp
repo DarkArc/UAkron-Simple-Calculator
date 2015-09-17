@@ -1,6 +1,7 @@
 #ifndef EVALVISITOR_HPP
 #define EVALVISITOR_HPP
 
+#include "Expr/Expr.hpp"
 #include "Visitor.hpp"
 
 struct EvalVisitor : public Visitor {
@@ -13,5 +14,15 @@ struct EvalVisitor : public Visitor {
   virtual void visit(MultiExpr&);
   virtual void visit(SubExpr&);
 };
+
+inline int eval(Expr& e) {
+  EvalVisitor v;
+  e.accept(v);
+  return v.result;
+}
+
+inline int eval(Expr* e) {
+  return eval(*e);
+}
 
 #endif
