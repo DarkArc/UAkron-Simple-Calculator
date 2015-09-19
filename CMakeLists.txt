@@ -8,6 +8,7 @@ project(CalcEval CXX)
 # Core Library
 file(GLOB expr_SRC
     "Expr/*.cpp"
+    "Parser/*.cpp"
 )
 
 add_library(CalcLangCore
