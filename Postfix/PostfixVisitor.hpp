@@ -9,12 +9,12 @@
 struct SExprVisitor : public Visitor {
   std::string result = "";
 
-  virtual void visit(AddExpr&);
-  virtual void visit(Digit&);
-  virtual void visit(DivExpr&);
-  virtual void visit(ModExpr&);
-  virtual void visit(MultiExpr&);
-  virtual void visit(SubExpr&);
+  virtual void visit(AddExpr&) override;
+  virtual void visit(Digit&) override;
+  virtual void visit(DivExpr&) override;
+  virtual void visit(ModExpr&) override;
+  virtual void visit(MultiExpr&) override;
+  virtual void visit(SubExpr&) override;
 };
 
 inline std::string eval(Expr& e) {

@@ -9,6 +9,8 @@ struct MultiExpr;
 struct SubExpr;
 
 struct Visitor {
+  virtual ~Visitor();
+
   virtual void visit(AddExpr&) = 0;
   virtual void visit(Digit&) = 0;
   virtual void visit(DivExpr&) = 0;
@@ -16,5 +18,7 @@ struct Visitor {
   virtual void visit(MultiExpr&) = 0;
   virtual void visit(SubExpr&) = 0;
 };
+
+inline Visitor::~Visitor() { }
 
 #endif
