@@ -7,18 +7,24 @@
 #include "../Expr/MultiExpr.hpp"
 #include "../Expr/SubExpr.hpp"
 
+#include "../Parser/Parser.hpp"
+
 #include <iostream>
+#include <sstream>
 
 int main() {
-  Digit a(5);
-  Digit b(2);
-  AddExpr exprA(a, b);
-  AddExpr exprB(exprA, b);
-  MultiExpr exprC(exprA, exprB);
+  // Digit a(5);
+  // Digit b(2);
+  // AddExpr exprA(a, b);
+  // AddExpr exprB(exprA, b);
+  // MultiExpr exprC(exprA, exprB);
 
-  std::cout << eval(exprA) << '\n';
-  std::cout << eval(exprB) << '\n';
-  std::cout << eval(exprC) << '\n';
+  std::stringstream k;
+  k << "(( 1 + 2 ) * 5 )\n";
+  Parser p(k);
+  std::cout << eval(p.expr()) << '\n';
+  // std::cout << eval(exprB) << '\n';
+  // std::cout << eval(exprC) << '\n';
 
   return 0;
 }
