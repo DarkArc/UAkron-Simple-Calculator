@@ -8,7 +8,7 @@
 #include "../Expr/SubExpr.hpp"
 
 #include <iostream>
-#include <exception>
+#include <stdexcept>
 #include <unordered_map>
 
 using FactoryPtr = Expr*(*)(Expr*, Expr*);
@@ -44,42 +44,6 @@ void Parser::next() {
     la = static_cast<char>(in->get());
   } while (la == " ");
 }
-
-template <typename T>
-  void Parser::match(T& e) {
-    if (!optMatch(e)) {
-      throw std::logic_error("Invalid syntax");
-    }
-  }
-
-template <typename T>
-  bool Parser::optMatch(T& e) {
-    if (e == la) {
-      next();
-      return true;
-    }
-    return false;
-  }
-
-template <typename MapType>
-  Expr* Parser::binaryOpParse(MapType& map, SubParserPtr subParse) {
-
-    // Call the recursive function
-    Expr* e1 = (this->*subParse)();
-
-    typename MapType::iterator it;
-
-    // While the operator in the map is valid, remove
-    // the current look ahead, call the recursive function
-    // and join using the correct AST node, as determined
-    // by the corresponding factory
-    while ((it = map.find(la)) != map.end()) {
-      next();
-      Expr* e2 = (this->*subParse)();
-      e1 = it->second(e1, e2);
-    }
-    return e1;
-  }
 
 Expr* Parser::expr() {
   using FactoryMap = std::unordered_map<std::string, FactoryPtr>;
