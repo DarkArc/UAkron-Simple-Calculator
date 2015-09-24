@@ -12,7 +12,6 @@
 #include <iostream>
 
 int main() {
-  Parser p(std::cin);
-  std::cout << eval(p.expr()) << std::endl;
+  std::cout << eval(parse(std::cin)) << std::endl;
   return 0;
 }

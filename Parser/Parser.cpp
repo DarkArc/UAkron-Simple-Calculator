@@ -7,6 +7,7 @@
 #include "../Expr/MultiExpr.hpp"
 #include "../Expr/SubExpr.hpp"
 
+#include <iostream>
 #include <exception>
 #include <unordered_map>
 
@@ -60,46 +61,48 @@ template <typename T>
     return false;
   }
 
+template <typename MapType>
+  Expr* Parser::binaryOpParse(MapType& map, SubParserPtr subParse) {
+
+    // Call the recursive function
+    Expr* e1 = (this->*subParse)();
+
+    typename MapType::iterator it;
+
+    // While the operator in the map is valid, remove
+    // the current look ahead, call the recursive function
+    // and join using the correct AST node, as determined
+    // by the corresponding factory
+    while ((it = map.find(la)) != map.end()) {
+      next();
+      Expr* e2 = (this->*subParse)();
+      e1 = it->second(e1, e2);
+    }
+    return e1;
+  }
+
 Expr* Parser::expr() {
-  std::unordered_map<std::string, FactoryPtr> vals{
+  using FactoryMap = std::unordered_map<std::string, FactoryPtr>;
+
+  FactoryMap vals{
     {"+", &::addFactory},
     {"-", &::subFactory}
   };
 
-  Expr* e1 = factor();
-  while (true) {
-    auto it = vals.find(la);
-    if (it == vals.end()) {
-      break;
-    } else {
-      next();
-      Expr* e2 = factor();
-      e1 = it->second(e1, e2);
-    }
-  }
-  return e1;
+  return binaryOpParse<FactoryMap>(vals, &Parser::factor);
 }
 
 
 Expr* Parser::factor() {
-  std::unordered_map<std::string, FactoryPtr> vals{
+  using FactoryMap = std::unordered_map<std::string, FactoryPtr>;
+
+  FactoryMap vals{
     {"*", &::multiFactory},
     {"/", &::divFactory},
     {"%", &::modFactory}
   };
 
-  Expr* e1 = term();
-  while (true) {
-    auto it = vals.find(la);
-    if (it == vals.end()) {
-      break;
-    } else {
-      next();
-      Expr* e2 = term();
-      e1 = it->second(e1, e2);
-    }
-  }
-  return e1;
+  return binaryOpParse<FactoryMap>(vals, &Parser::term);
 }
 
 Expr* Parser::term() {
