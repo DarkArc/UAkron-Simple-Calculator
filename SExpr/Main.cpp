@@ -7,18 +7,12 @@
 #include "../Expr/MultiExpr.hpp"
 #include "../Expr/SubExpr.hpp"
 
+#include "../Parser/Parser.hpp"
+
 #include <iostream>
 
 int main() {
-  Digit a(5);
-  Digit b(2);
-  AddExpr exprA(a, b);
-  AddExpr exprB(exprA, b);
-  MultiExpr exprC(exprA, exprB);
-
-  std::cout << eval(exprA) << '\n';
-  std::cout << eval(exprB) << '\n';
-  std::cout << eval(exprC) << '\n';
-
+  Parser p(std::cin);
+  std::cout << eval(p.expr()) << std::endl;
   return 0;
 }
