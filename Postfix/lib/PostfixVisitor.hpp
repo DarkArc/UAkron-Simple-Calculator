@@ -1,12 +1,14 @@
-#ifndef SEXPRVISITOR_HPP
-#define SEXPRVISITOR_HPP
+#ifndef POSTFIXVISITOR_HPP
+#define POSTFIXVISITOR_HPP
 
-#include "../Expr/Expr.hpp"
-#include "../Visitor.hpp"
+#include "../../Expr/Expr.hpp"
+#include "../../Visitor.hpp"
 
 #include <string>
 
-struct SExprVisitor : public Visitor {
+namespace PostfixLib {
+
+struct PostfixVisitor : public Visitor {
   std::string result = "";
 
   virtual void visit(AddExpr&) override;
@@ -18,13 +20,15 @@ struct SExprVisitor : public Visitor {
 };
 
 inline std::string eval(Expr& e) {
-  SExprVisitor v;
+  PostfixVisitor v;
   e.accept(v);
   return v.result;
 }
 
 inline std::string eval(Expr* e) {
   return eval(*e);
+}
+
 }
 
 #endif

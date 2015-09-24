@@ -1,8 +1,10 @@
 #ifndef EVALVISITOR_HPP
 #define EVALVISITOR_HPP
 
-#include "../Expr/Expr.hpp"
-#include "../Visitor.hpp"
+#include "../../Expr/Expr.hpp"
+#include "../../Visitor.hpp"
+
+namespace EvalLib {
 
 struct EvalVisitor : public Visitor {
   int result = 0;
@@ -23,6 +25,8 @@ inline int eval(Expr& e) {
 
 inline int eval(Expr* e) {
   return eval(*e);
+}
+
 }
 
 #endif

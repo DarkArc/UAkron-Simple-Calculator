@@ -1,4 +1,11 @@
 #include <stdexcept>
+#include <sstream>
+
+inline Expr* parse(const std::string& in) {
+  std::stringstream ss;
+  ss.str(in);
+  return parse(ss);
+}
 
 inline Expr* parse(std::istream& is) {
   Parser p(is);

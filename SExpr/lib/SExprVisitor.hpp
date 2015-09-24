@@ -1,10 +1,12 @@
-#ifndef POSTFIXVISITOR_HPP
-#define POSTFIXVISITOR_HPP
+#ifndef SEXPRVISITOR_HPP
+#define SEXPRVISITOR_HPP
 
-#include "../Expr/Expr.hpp"
-#include "../Visitor.hpp"
+#include "../../Expr/Expr.hpp"
+#include "../../Visitor.hpp"
 
 #include <string>
+
+namespace SExprLib {
 
 struct SExprVisitor : public Visitor {
   std::string result = "";
@@ -25,6 +27,8 @@ inline std::string eval(Expr& e) {
 
 inline std::string eval(Expr* e) {
   return eval(*e);
+}
+
 }
 
 #endif

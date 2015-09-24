@@ -33,7 +33,8 @@ struct Parser {
   Expr* digit();
 };
 
-Expr* parse(std::istream& is);
+Expr* parse(const std::string&);
+Expr* parse(std::istream&);
 
 #include "Parser.ipp"
 
