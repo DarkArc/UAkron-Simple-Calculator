@@ -9,7 +9,13 @@ inline Expr* parse(const std::string& in) {
 
 inline Expr* parse(std::istream& is) {
   Parser p(is);
-  return p.expr();
+  Expr* expr = p.expr();
+
+  if (p.la != "\n") {
+    throw std::logic_error("Invalid syntax");
+  }
+
+  return expr;
 }
 
 template <typename T>

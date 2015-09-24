@@ -43,6 +43,18 @@ void Parser::next() {
   do {
     la = static_cast<char>(in->get());
   } while (la == " ");
+
+  // EOF is determined by the last operation
+  // thus, if this is true, we've reached the last character
+  // this adds coverage for any input which does not end in
+  // a new line.
+
+  // This intern allows for the parse function to check explicitly
+  // to ensure that the last la is a new line character
+  // to validate that no trailing characters persist in the stream.
+  if (in->eof()) {
+    la = "\n";
+  }
 }
 
 Expr* Parser::expr() {
