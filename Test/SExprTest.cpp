@@ -5,9 +5,15 @@
 
 using namespace SExprLib;
 
+namespace {
+  void expectVal(const std::string& str, const std::string& res) {
+    expect<std::string>(eval(parse(str)), res);
+  }
+}
+
 void SExprTest::complete() {
-  expect<std::string>(eval(parse("2+2")), "(+ 2 2)");
-  expect<std::string>(eval(parse("2 + 2")), "(+ 2 2)");
-  expect<std::string>(eval(parse("9 - 5 + 2")), "(+ (- 9 5) 2)");
-  expect<std::string>(eval(parse("1 + 2 * 3")), "(+ 1 (* 2 3))");
+  expectVal("2+2", "(+ 2 2)");
+  expectVal("2 + 2", "(+ 2 2)");
+  expectVal("9 - 5 + 2", "(+ (- 9 5) 2)");
+  expectVal("1 + 2 * 3", "(+ 1 (* 2 3))");
 }
