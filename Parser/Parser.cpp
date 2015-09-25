@@ -51,7 +51,8 @@ void Parser::next() {
 
   // This intern allows for the parse function to check explicitly
   // to ensure that the last la is a new line character
-  // to validate that no trailing characters persist in the stream.
+  // to validate that no trailing characters persist for this expression
+  // in the input stream.
   if (in->eof()) {
     la = "\n";
   }
@@ -108,6 +109,7 @@ Expr* Parser::digit() {
   bool found = false;
   int val = 0;
 
+  // Translate multidigit  numbers from text to an integer value
   while (true) {
     auto it = vals.find(la);
     if (it == vals.end()) {
