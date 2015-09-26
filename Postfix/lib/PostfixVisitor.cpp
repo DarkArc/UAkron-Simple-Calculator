@@ -1,13 +1,6 @@
 #include "PostfixVisitor.hpp"
 
-#include "../../Expr/BinaryExpr.hpp"
-
-#include "../../Expr/AddExpr.hpp"
-#include "../../Expr/Digit.hpp"
-#include "../../Expr/DivExpr.hpp"
-#include "../../Expr/ModExpr.hpp"
-#include "../../Expr/MultiExpr.hpp"
-#include "../../Expr/SubExpr.hpp"
+#include "../../AST/AST.hpp"
 
 namespace {
 
@@ -24,7 +17,7 @@ void PostfixVisitor::visit(AddExpr& expr) {
   result = wrap("+", expr);
 }
 
-void PostfixVisitor::visit(Digit& expr) {
+void PostfixVisitor::visit(Digits& expr) {
   result = std::to_string(expr.val);
 }
 

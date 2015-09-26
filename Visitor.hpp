@@ -2,7 +2,7 @@
 #define VISITOR_HPP
 
 struct AddExpr;
-struct Digit;
+struct Digits;
 struct DivExpr;
 struct ModExpr;
 struct MultiExpr;
@@ -12,7 +12,7 @@ struct Visitor {
   virtual ~Visitor();
 
   virtual void visit(AddExpr&) = 0;
-  virtual void visit(Digit&) = 0;
+  virtual void visit(Digits&) = 0;
   virtual void visit(DivExpr&) = 0;
   virtual void visit(ModExpr&) = 0;
   virtual void visit(MultiExpr&) = 0;

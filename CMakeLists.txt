@@ -13,7 +13,8 @@ project(CalcPostfix CXX)
 
 # Core Library
 file(GLOB core_lib_SRC
-    "Expr/*.cpp"
+    "AST/*.cpp"
+    "AST/Expr/*.cpp"
     "Parser/*.cpp"
 )
 

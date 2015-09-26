@@ -30,7 +30,7 @@ struct Parser {
   Expr* expr();
   Expr* factor();
   Expr* term();
-  Expr* digit();
+  Expr* digits();
 };
 
 Expr* parse(const std::string&);

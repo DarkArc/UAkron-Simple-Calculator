@@ -3,6 +3,7 @@
 
 #include "Expr.hpp"
 
+// Base class representing any binary expression on the AST
 struct BinaryExpr : public Expr {
   Expr* leftExpr;
   Expr* rightExpr;

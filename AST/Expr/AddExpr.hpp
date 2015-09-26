@@ -3,6 +3,8 @@
 
 #include "BinaryExpr.hpp"
 
+// Representative of the AST production:
+// e ::= e1 + e2
 struct AddExpr : public BinaryExpr {
   using BinaryExpr::BinaryExpr;
 

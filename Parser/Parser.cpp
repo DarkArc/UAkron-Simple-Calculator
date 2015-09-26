@@ -1,11 +1,6 @@
 #include "Parser.hpp"
 
-#include "../Expr/AddExpr.hpp"
-#include "../Expr/Digit.hpp"
-#include "../Expr/DivExpr.hpp"
-#include "../Expr/ModExpr.hpp"
-#include "../Expr/MultiExpr.hpp"
-#include "../Expr/SubExpr.hpp"
+#include "../AST/AST.hpp"
 
 #include <iostream>
 #include <stdexcept>
@@ -58,6 +53,8 @@ void Parser::next() {
   }
 }
 
+// Expr -> Expr + Factor
+//       | Factor
 Expr* Parser::expr() {
   using FactoryMap = std::unordered_map<std::string, FactoryPtr>;
 
@@ -69,7 +66,8 @@ Expr* Parser::expr() {
   return binaryOpParse<FactoryMap>(vals, &Parser::factor);
 }
 
-
+// Factor -> Factor + Term
+//         | Term
 Expr* Parser::factor() {
   using FactoryMap = std::unordered_map<std::string, FactoryPtr>;
 
@@ -82,17 +80,20 @@ Expr* Parser::factor() {
   return binaryOpParse<FactoryMap>(vals, &Parser::term);
 }
 
+// Term -> (Expr)
+//       | Digits
 Expr* Parser::term() {
   if (optMatch("(")) {
     Expr* e1 = expr();
     match(")");
     return e1;
   } else {
-    return digit();
+    return digits();
   }
 }
 
-Expr* Parser::digit() {
+// Digits -> (0 | 1 | ... | 9)+
+Expr* Parser::digits() {
   std::unordered_map<std::string, int> vals{
     {"0", 0},
     {"1", 1},
@@ -109,7 +110,7 @@ Expr* Parser::digit() {
   bool found = false;
   int val = 0;
 
-  // Translate multidigit  numbers from text to an integer value
+  // Translate multidigit numbers from text to an integer value
   while (true) {
     auto it = vals.find(la);
     if (it == vals.end()) {
@@ -128,5 +129,5 @@ Expr* Parser::digit() {
     throw std::logic_error("Invalid syntax");
   }
 
-  return new Digit(val);
+  return new Digits(val);
 }

@@ -1,11 +1,6 @@
 #include "EvalVisitor.hpp"
 
-#include "../../Expr/AddExpr.hpp"
-#include "../../Expr/Digit.hpp"
-#include "../../Expr/DivExpr.hpp"
-#include "../../Expr/ModExpr.hpp"
-#include "../../Expr/MultiExpr.hpp"
-#include "../../Expr/SubExpr.hpp"
+#include "../../AST/AST.hpp"
 
 namespace EvalLib {
 
@@ -13,7 +8,7 @@ void EvalVisitor::visit(AddExpr& expr) {
   result = eval(expr.leftExpr) + eval(expr.rightExpr);
 }
 
-void EvalVisitor::visit(Digit& expr) {
+void EvalVisitor::visit(Digits& expr) {
   result = expr.val;
 }
 
