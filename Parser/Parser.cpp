@@ -54,6 +54,7 @@ void Parser::next() {
 }
 
 // Expr -> Expr + Factor
+//       | Expr - Factor
 //       | Factor
 Expr* Parser::expr() {
   using FactoryMap = std::unordered_map<std::string, FactoryPtr>;
@@ -66,7 +67,9 @@ Expr* Parser::expr() {
   return binaryOpParse<FactoryMap>(vals, &Parser::factor);
 }
 
-// Factor -> Factor + Term
+// Factor -> Factor * Term
+//         | Factor / Term
+//         | Factor % Term
 //         | Term
 Expr* Parser::factor() {
   using FactoryMap = std::unordered_map<std::string, FactoryPtr>;
