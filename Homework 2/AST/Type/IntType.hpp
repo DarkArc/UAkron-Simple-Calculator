@@ -7,4 +7,8 @@ struct IntType : public Type {
 
 };
 
+IntType* getIntType();
+
+#include "IntType.ipp"
+
 #endif

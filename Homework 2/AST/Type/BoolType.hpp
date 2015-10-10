@@ -7,4 +7,8 @@ struct BoolType : public Type {
 
 };
 
+BoolType* getBoolType();
+
+#include "BoolType.ipp"
+
 #endif
