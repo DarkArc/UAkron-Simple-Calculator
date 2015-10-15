@@ -29,6 +29,7 @@ struct Token {
   TokType type;
   std::string text;
 
+  Token(const TokType&, const std::string&);
 };
 
 #include "Token.ipp"
