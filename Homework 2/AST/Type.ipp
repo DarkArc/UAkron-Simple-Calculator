@@ -1,11 +1,13 @@
 Type::~Type() { }
 
-BoolType* getBoolType() {
+inline BoolType*
+getBoolType() {
   static BoolType type;
   return &type;
 }
 
-IntType* getIntType() {
+inline IntType*
+getIntType() {
   static IntType type;
   return &type;
 }
