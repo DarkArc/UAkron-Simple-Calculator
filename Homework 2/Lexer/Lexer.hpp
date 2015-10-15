@@ -5,10 +5,32 @@
 #include <vector>
 #include <iosfwd>
 
-class Lexer {
+struct ReparseStream {
+  std::string reparse;
   std::istream* input;
-  std::string text;
+
+  ReparseStream(std::istream&);
+
+  bool eof();
+  char readLA();
+
+  void reparse(const std::string&);
+};
+
+struct Predictor {
   std::string prediction;
+  ReparseStream* stream;
+  Lexer* lexer;
+
+  Predictor(ReparseStream&, Lexer&)
+  ~Predictor();
+
+  bool operator () (const std::string&);
+};
+
+class Lexer {
+  ReparseStream* input;
+  std::string text;
   std::vector<Token> out;
 
 public:
@@ -18,8 +40,7 @@ public:
 
 private:
   void addTok(const TokType&);
-  void addOrigTok(const TokType&);
-  bool predict(const std::string&);
+  void addOrigTok(const TokType&, const Predictor&);
   char readLA();
 }
 

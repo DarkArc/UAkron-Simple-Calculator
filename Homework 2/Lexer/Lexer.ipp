@@ -2,19 +2,19 @@ inline void
 Lexer::addTok(const TokType& tok) {
   out.emplace_back(tok, text);
   text.clear();
-  prediction.clear();
 }
 
 inline void
-addOrigTok(const TokType& tok) {
-  out.emplace_back(tok, text.substring(0, text.size() - prediction.size()));
-  text = prediction;
-  prediction.clear();
+addOrigTok(const TokType& tok, const Predictor& predictor) {
+  std::string* prediction = &predictor.prediction;
+  out.emplace_back(tok, text.substring(0, text.size() - prediction->size()));
+  text = *prediction;
+  prediction->clear();
 }
 
 inline char
 Lexer::readLA() {
-  char la = input->get();
+  char la = input->readLA();
   text += la;
   return la;
 }

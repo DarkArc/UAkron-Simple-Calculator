@@ -1,13 +1,72 @@
 #include "Lexer.hpp"
 
+#include <algorithm>
 #include <string>
 
-Lexer::Lexer(std::istream& input) : input(&input) { }
+ReparseStream::ReparseStream(std::istream& input) : input(&input) { }
+
+bool
+ReparseStream::eof() {
+  return reparse.empty() && input->eof();
+}
+
+char
+ReparseStream::readLA() {
+  if (!reparse.empty()) {
+    char back = reparse.back();
+    reparse.pop_back()
+    return back;
+  }
+  return input->get();
+}
+
+void
+ReparseStream::reparse(const std::string& str) {
+  if (!reparse.empty()) {
+    std::runtime_error("Illegal lexer state!");
+  }
+  std::reverse_copy(str.begin(), std.end(), reparse.rbegin());
+}
+
+Predictor::Predictor(ReparseStream& stream, Lexer& lexer) : stream(&stream), lexer(&lexer) { }
+
+Predictor::~Predictor() {
+  if (!prediction.empty()) {
+    stream->reparse(prediction);
+  }
+}
+
+bool
+Predictor::Predictor operator () (const std::string& str) {
+  auto strIt = str.cbegin();
+  for (auto it = prediction.cbegin(); it != prediction.cend(); ++it) {
+    if (strIt == strIt.cend() || *it != *(strIt++)) {
+      return false;
+    }
+  }
+
+  for (; !stream->eof(); ++strIt) {
+    char newChar = stream->readLA();
+    prediction += newChar;
+    if (strIt == strIt.cend() || *strIt != newChar) {
+      return false;
+    }
+  }
+
+  lexer->text += prediction;
+  prediction.clear();
+  return true;
+}
+
+Lexer::Lexer(std::istream& input) : input(ReparseStream(&input) { }
 
 std::vector<Token>
 Lexer::tokenize() {
   while (!input->eof()) {
-    predictionCleanup();
+    // When the predictor goes out of scope
+    // if has been used, but failed to find a prediction
+    // the characters will re-enter the lexer
+    Predictor predict(*input, *this);
     switch (readLA()) {
       case ' ':
       case '\t':
@@ -81,23 +140,4 @@ Lexer::tokenize() {
         // TODO numbers
     }
   }
-}
-
-bool
-Lexer::predict(const std::string& str) {
-  auto strIt = str.cbegin();
-  for (auto it = prediction.cbegin(); it != prediction.cend(); ++it) {
-    if (strIt == strIt.cend() || *it != *(strIt++)) {
-      return false;
-    }
-  }
-
-  for (; !input->eof(); ++strIt) {
-    char newChar = readLA();
-    prediction += newChar;
-    if (strIt == strIt.cend() || *strIt != newChar) {
-      return false;
-    }
-  }
-  return true;
 }
