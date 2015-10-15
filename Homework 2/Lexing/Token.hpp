@@ -1,6 +1,8 @@
 #ifndef TOKEN_HPP
 #define TOKEN_HPP
 
+#include <string>
+
 enum class TokType {
   L_PAREN,
   R_PAREN,
@@ -28,5 +30,7 @@ struct Token {
   std::string text;
 
 };
+
+#include "Token.ipp"
 
 #endif

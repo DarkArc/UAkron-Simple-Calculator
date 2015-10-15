@@ -3,15 +3,15 @@
 
 #include "Token.hpp"
 
-#include <list>
+#include <vector>
 #include <iosfwd>
 
 struct Lexer {
 
 };
 
-std::list<token> tokenize(std::istream input) {
+std::vector<token> tokenize(std::istream input);
 
-}
+#include "Lexer.ipp"
 
 #endif
