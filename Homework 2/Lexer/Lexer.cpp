@@ -2,19 +2,19 @@
 
 #include <algorithm>
 #include <string>
-
-ReparseStream::ReparseStream(std::istream& input) : input(&input) { }
+#include <cctype>
+#include <iostream>
 
 bool
 ReparseStream::eof() {
-  return reparse.empty() && input->eof();
+  return reparseText.empty() && input->eof();
 }
 
 char
 ReparseStream::readLA() {
-  if (!reparse.empty()) {
-    char back = reparse.back();
-    reparse.pop_back()
+  if (!reparseText.empty()) {
+    char back = reparseText.back();
+    reparseText.pop_back();
     return back;
   }
   return input->get();
@@ -22,25 +22,17 @@ ReparseStream::readLA() {
 
 void
 ReparseStream::reparse(const std::string& str) {
-  if (!reparse.empty()) {
+  if (!reparseText.empty()) {
     std::runtime_error("Illegal lexer state!");
   }
-  std::reverse_copy(str.begin(), std.end(), reparse.rbegin());
-}
-
-Predictor::Predictor(ReparseStream& stream, Lexer& lexer) : stream(&stream), lexer(&lexer) { }
-
-Predictor::~Predictor() {
-  if (!prediction.empty()) {
-    stream->reparse(prediction);
-  }
+  std::reverse_copy(str.begin(), str.end(), reparseText.rbegin());
 }
 
 bool
-Predictor::Predictor operator () (const std::string& str) {
+Predictor::operator () (const std::string& str) {
   auto strIt = str.cbegin();
   for (auto it = prediction.cbegin(); it != prediction.cend(); ++it) {
-    if (strIt == strIt.cend() || *it != *(strIt++)) {
+    if (strIt == str.cend() || *it != *(strIt++)) {
       return false;
     }
   }
@@ -48,96 +40,113 @@ Predictor::Predictor operator () (const std::string& str) {
   for (; !stream->eof(); ++strIt) {
     char newChar = stream->readLA();
     prediction += newChar;
-    if (strIt == strIt.cend() || *strIt != newChar) {
+    if (strIt == str.cend() || *strIt != newChar) {
       return false;
     }
   }
 
   lexer->text += prediction;
-  prediction.clear();
   return true;
 }
 
-Lexer::Lexer(std::istream& input) : input(ReparseStream(&input) { }
-
 std::vector<Token>
 Lexer::tokenize() {
-  while (!input->eof()) {
+  while (!input.eof()) {
     // When the predictor goes out of scope
     // if has been used, but failed to find a prediction
     // the characters will re-enter the lexer
-    Predictor predict(*input, *this);
-    switch (readLA()) {
+    Predictor predict(input, *this);
+    switch (char curChar = readLA()) {
       case ' ':
       case '\t':
       case '\n':
         text.pop_back();
         break;
       case '(':
-        addTok(TokType::L_PAREN);
+        addTok(TokType::L_PAREN, predict);
         break;
       case ')':
-        addTok(TokType::R_PAREN);
+        addTok(TokType::R_PAREN, predict);
         break;
       case '+':
-        addTok(TokType::PLUS);
+        addTok(TokType::PLUS, predict);
         break;
       case '-':
-        addTok(TokType::MINUS);
+        addTok(TokType::MINUS, predict);
         break;
       case '*':
-        addTok(TokType::STAR);
+        addTok(TokType::STAR, predict);
         break;
       case '/':
-        addTok(TokType::SLASH);
+        addTok(TokType::SLASH, predict);
         break;
       case '%':
-        addTok(TokType::PERCENT);
+        addTok(TokType::PERCENT, predict);
         break;
       case 't':
         if (predict("rue")) {
-          addTok(TokType::KW_TRUE);
+          addTok(TokType::KW_TRUE, predict);
         }
         break;
       case 'f':
         if (predict("alse")) {
-          addTok(TokType::KW_FALSE);
+          addTok(TokType::KW_FALSE, predict);
         }
         break;
       case '&':
         if (predict("&")) {
-          addTok(TokType::AND);
+          addTok(TokType::AND, predict);
         }
         break;
       case '|':
         if (predict("|")) {
-          addTok(TokType::OR);
+          addTok(TokType::OR, predict);
         }
         break;
       case '!':
         if (predict("=")) {
-          addTok(TokType::NOT_EQ);
+          addTok(TokType::NOT_EQ, predict);
         }
-        addOrigTok(TokType::NOT);
+        addOrigTok(TokType::NOT, predict);
         break;
       case '=':
         if (predict("=")) {
-          addTok(TokType::EQUAL);
+          addTok(TokType::EQUAL, predict);
         }
         break;
       case '<':
         if (predict("=")) {
-          addTok(TokType::LESS_THAN_EQ);
+          addTok(TokType::LESS_THAN_EQ, predict);
         }
-        addOrigTok(TokType::LESS_THAN);
+        addOrigTok(TokType::LESS_THAN, predict);
         break;
       case '>':
         if (predict("=")) {
-          addTok(TokType::GREATHER_THAN_EQ);
+          addTok(TokType::GREATHER_THAN_EQ, predict);
         }
-        addOrigTok(TokType::GREATER_THAN);
+        addOrigTok(TokType::GREATER_THAN, predict);
       default:
-        // TODO numbers
+        if (std::isdigit(curChar)) {
+          consumeInt(curChar, predict);
+          break;
+        }
+        // TODO complain
     }
   }
+  return out;
+}
+
+void
+Lexer::consumeInt(char& curChar, Predictor& predict) {
+  bool eof;
+  while (!(eof = input.eof()) && std::isdigit(readLA())) { }
+
+  // If we didn't hit the eof, we must have hit a characters
+  // throw that char back into the ReparseStream
+  if (!eof) {
+    text.pop_back();
+    input.reparse({curChar});
+  }
+
+  addTok(TokType::INT, predict);
 }

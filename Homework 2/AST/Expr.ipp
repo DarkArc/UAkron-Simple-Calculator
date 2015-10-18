@@ -31,7 +31,7 @@ DivExpr::accept(Visitor& v) {
 }
 
 inline void
-EqualsExpr::accept(Visitor& v) {
+EqualExpr::accept(Visitor& v) {
   v.visit(*this);
 }
 
@@ -75,7 +75,7 @@ NegExpr::accept(Visitor& v) {
 }
 
 inline void
-NotEqualsExpr::accept(Visitor& v) {
+NotEqualExpr::accept(Visitor& v) {
   v.visit(*this);
 }
 

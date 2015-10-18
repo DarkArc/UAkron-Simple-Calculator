@@ -1,7 +1,7 @@
 #ifndef EVALVISITOR_HPP
 #define EVALVISITOR_HPP
 
-#include "../../AST/Expr/Expr.hpp"
+#include "../../AST/Expr.hpp"
 #include "../../Visitor.hpp"
 
 namespace EvalLib {
@@ -13,7 +13,7 @@ struct EvalVisitor : public Visitor {
   virtual void visit(AndExpr&) override;
   virtual void visit(Digits&) override;
   virtual void visit(DivExpr&) override;
-  virtual void visit(EqualsExpr&) override;
+  virtual void visit(EqualExpr&) override;
   virtual void visit(GreaterThanEqualExpr&) override;
   virtual void visit(GreaterThanExpr&) override;
   virtual void visit(LessThanEqualExpr&) override;
@@ -25,7 +25,7 @@ struct EvalVisitor : public Visitor {
   virtual void visit(NotEqualExpr&) override;
   virtual void visit(OrExpr&) override;
   virtual void visit(PosExpr&) override;
-  virtual void visit(SubExpr&) override;=
+  virtual void visit(SubExpr&) override;
 };
 
 inline int eval(Expr& e) {

@@ -1,6 +1,8 @@
 #ifndef TOKEN_HPP
 #define TOKEN_HPP
 
+#include "SymbolTable.hpp"
+
 #include <string>
 
 enum class TokType {
@@ -27,10 +29,12 @@ enum class TokType {
 
 struct Token {
   TokType type;
-  std::string text;
+  Symbol* sym;
 
-  Token(const TokType&, const std::string&);
+  Token(const TokType&, Symbol*);
 };
+
+Token tokenFromTable(SymbolTable&, const std::string&, const TokType&);
 
 #include "Token.ipp"
 

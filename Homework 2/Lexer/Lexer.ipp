@@ -1,26 +1,45 @@
+inline
+ReparseStream::ReparseStream(std::istream& input) : input(&input) { }
+
+inline
+Predictor::Predictor(ReparseStream& stream, Lexer& lexer) : stream(&stream), lexer(&lexer) { }
+
+inline
+Predictor::~Predictor() {
+  if (!prediction.empty()) {
+    std::runtime_error("Illegal lexer state!");
+  }
+}
+
+inline
+Lexer::Lexer(SymbolTable& symTable, std::istream& input) : symTable(&symTable), input(ReparseStream(input)) { }
+
 inline void
-Lexer::addTok(const TokType& tok) {
-  out.emplace_back(tok, text);
+Lexer::addTok(const TokType& tok, Predictor& predictor) {
+  out.push_back(tokenFromTable(*symTable, text, tok));
   text.clear();
+
+  predictor.prediction.clear();
 }
 
 inline void
-addOrigTok(const TokType& tok, const Predictor& predictor) {
+Lexer::addOrigTok(const TokType& tok, Predictor& predictor) {
   std::string* prediction = &predictor.prediction;
-  out.emplace_back(tok, text.substring(0, text.size() - prediction->size()));
+  out.push_back(tokenFromTable(*symTable, text.substr(0, text.size() - prediction->size()), tok));
   text = *prediction;
+
   prediction->clear();
 }
 
 inline char
 Lexer::readLA() {
-  char la = input->readLA();
+  char la = input.readLA();
   text += la;
   return la;
 }
 
 inline std::vector<Token>
-tokenize(std::istream& input) {
-  Lexer l;
-  return l.tokenize(input);
+tokenize(SymbolTable& symTable, std::istream& input) {
+  Lexer l(symTable, input);
+  return l.tokenize();
 }

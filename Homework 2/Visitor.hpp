@@ -1,12 +1,23 @@
 #ifndef VISITOR_HPP
 #define VISITOR_HPP
 
-struct AddExpr;
-struct Digits;
-struct DivExpr;
-struct ModExpr;
-struct MultiExpr;
-struct SubExpr;
+class AddExpr;
+class AndExpr;
+class Digits;
+class DivExpr;
+class EqualExpr;
+class GreaterThanEqualExpr;
+class GreaterThanExpr;
+class LessThanEqualExpr;
+class LessThanExpr;
+class ModExpr;
+class MultiExpr;
+class NegationExpr;
+class NegExpr;
+class NotEqualExpr;
+class OrExpr;
+class PosExpr;
+class SubExpr;
 
 struct Visitor {
   virtual ~Visitor();
@@ -15,7 +26,7 @@ struct Visitor {
   virtual void visit(AndExpr&) = 0;
   virtual void visit(Digits&) = 0;
   virtual void visit(DivExpr&) = 0;
-  virtual void visit(EqualsExpr&) = 0;
+  virtual void visit(EqualExpr&) = 0;
   virtual void visit(GreaterThanEqualExpr&) = 0;
   virtual void visit(GreaterThanExpr&) = 0;
   virtual void visit(LessThanEqualExpr&) = 0;

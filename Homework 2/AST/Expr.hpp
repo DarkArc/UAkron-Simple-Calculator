@@ -82,7 +82,7 @@ struct DivExpr : public BinaryExpr {
 
 // Representative of the AST production:
 // e ::= e1 == e2
-struct EqualsExpr : public BinaryExpr {
+struct EqualExpr : public BinaryExpr {
   using BinaryExpr::BinaryExpr;
 
   virtual void accept(Visitor&) override;
