@@ -21,6 +21,7 @@
 //       e1 || e2
 //       +e
 //       e1 - e2
+//       (true | false)
 //       (0 | 1 | 2 | ... | 9)+
 
 // Base class representing any expression on the AST
@@ -63,11 +64,11 @@ struct AndExpr : public BinaryExpr {
 };
 
 // Base class representing any binary expression on the AST
-// e ::= (0 | 1 | 2 | ... | 9)+
-struct Digits : public Expr {
-  int val;
+// e ::= (true | false)
+struct BinaryValExpr : public Expr {
+  bool val;
 
-  Digits(const int&);
+  BinaryValExpr(const bool&);
 
   virtual void accept(Visitor&) override;
 };
@@ -100,6 +101,16 @@ struct GreaterThanEqualExpr : public BinaryExpr {
 // e ::= e1 > e2
 struct GreaterThanExpr : public BinaryExpr {
   using BinaryExpr::BinaryExpr;
+
+  virtual void accept(Visitor&) override;
+};
+
+// Base class representing any binary expression on the AST
+// e ::= (0 | 1 | 2 | ... | 9)+
+struct IntegerValExpr : public Expr {
+  int val;
+
+  IntegerValExpr(const int&);
 
   virtual void accept(Visitor&) override;
 };

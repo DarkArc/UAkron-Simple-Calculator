@@ -18,10 +18,10 @@ AndExpr::accept(Visitor& v) {
 }
 
 inline
-Digits::Digits(const int& val) : val(val) { }
+BinaryValExpr::BinaryValExpr(const bool& val) : val(val) { }
 
 inline void
-Digits::accept(Visitor& v) {
+BinaryValExpr::accept(Visitor& v) {
   v.visit(*this);
 }
 
@@ -42,6 +42,14 @@ GreaterThanEqualExpr::accept(Visitor& v) {
 
 inline void
 GreaterThanExpr::accept(Visitor& v) {
+  v.visit(*this);
+}
+
+inline
+IntegerValExpr::IntegerValExpr(const int& val) : val(val) { }
+
+inline void
+IntegerValExpr::accept(Visitor& v) {
   v.visit(*this);
 }
 

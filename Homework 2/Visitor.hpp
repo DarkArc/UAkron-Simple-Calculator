@@ -3,11 +3,12 @@
 
 class AddExpr;
 class AndExpr;
-class Digits;
+class BinaryValExpr;
 class DivExpr;
 class EqualExpr;
 class GreaterThanEqualExpr;
 class GreaterThanExpr;
+class IntegerValExpr;
 class LessThanEqualExpr;
 class LessThanExpr;
 class ModExpr;
@@ -24,11 +25,12 @@ struct Visitor {
 
   virtual void visit(AddExpr&) = 0;
   virtual void visit(AndExpr&) = 0;
-  virtual void visit(Digits&) = 0;
+  virtual void visit(BinaryValExpr&) = 0;
   virtual void visit(DivExpr&) = 0;
   virtual void visit(EqualExpr&) = 0;
   virtual void visit(GreaterThanEqualExpr&) = 0;
   virtual void visit(GreaterThanExpr&) = 0;
+  virtual void visit(IntegerValExpr&) = 0;
   virtual void visit(LessThanEqualExpr&) = 0;
   virtual void visit(LessThanExpr&) = 0;
   virtual void visit(ModExpr&) = 0;

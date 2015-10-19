@@ -11,11 +11,12 @@ struct EvalVisitor : public Visitor {
 
   virtual void visit(AddExpr&) override;
   virtual void visit(AndExpr&) override;
-  virtual void visit(Digits&) override;
+  virtual void visit(BinaryValExpr&) override;
   virtual void visit(DivExpr&) override;
   virtual void visit(EqualExpr&) override;
   virtual void visit(GreaterThanEqualExpr&) override;
   virtual void visit(GreaterThanExpr&) override;
+  virtual void visit(IntegerValExpr&) override;
   virtual void visit(LessThanEqualExpr&) override;
   virtual void visit(LessThanExpr&) override;
   virtual void visit(ModExpr&) override;

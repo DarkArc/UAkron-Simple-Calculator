@@ -37,4 +37,4 @@ add_executable(CalcEval
 
 target_link_libraries(CalcEval CalcLangLib CalcEvalLib)
 
-set(CMAKE_CXX_FLAGS "-Wall -std=c++11")
+set(CMAKE_CXX_FLAGS "-Wall -std=c++14")
