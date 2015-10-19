@@ -10,6 +10,43 @@ parse(std::istream& input) {
   tokenize(table, input);
 }
 
+template <typename T>
+  inline void
+  Parser::match(T& t) {
+    if (!optMatch(t)) {
+      throw std::logic_error("Invalid syntax");
+    }
+  }
+
+template <typename T>
+  inline bool
+  Parser::optMatch(T& t) {
+    if (t == cur->type) {
+      cur++;
+      return true;
+    }
+    return false;
+  }
+
+template <typename FactoryType>
+  inline Expr*
+  Parser::unaryFactory(Expr* e1) {
+    return new FactoryType(*e1);
+  }
+
+template <typename MapType>
+  inline Expr*
+  Parser::unaryOpParse(MapType& map, SubParserPtr subParse) {
+
+    typename MapType::iterator it;
+
+    if ((it = map.find(cur->type)) != map.end()) {
+      ++cur;
+      return (this->*(it->second))(unaryOpParse<MapType>(map, subParse));
+    }
+    return (this->*subParse)();
+  }
+
 template <typename FactoryType>
   inline Expr*
   Parser::binaryFactory(Expr* e1, Expr* e2) {
@@ -29,7 +66,7 @@ template <typename MapType>
     // the current look ahead, call the recursive function
     // and join using the correct AST node, as determined
     // by the corresponding factory
-    while ((it = map.find(static_cast<int>(cur->type))) != map.end()) {
+    while ((it = map.find(cur->type)) != map.end()) {
       ++cur;
       Expr* e2 = (this->*subParse)();
       e1 = (this->*(it->second))(e1, e2);

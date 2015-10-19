@@ -27,6 +27,18 @@ struct Parser {
   Expr* logicalOrExpr();
   Expr* expr();
 
+  template <typename T>
+    void match(T&);
+
+  template <typename T>
+    bool optMatch(T&);
+
+  template <typename FactoryType>
+    Expr* unaryFactory(Expr*);
+
+  template <typename MapType>
+    Expr* unaryOpParse(MapType&, SubParserPtr);
+
   template <typename FactoryType>
     Expr* binaryFactory(Expr*, Expr*);
 
