@@ -7,12 +7,14 @@ Parser::Parser(std::vector<Token>& tokens) : tokens(tokens), cur(tokens.begin())
 inline Expr*
 parse(std::istream& input) {
   SymbolTable table;
-  tokenize(table, input);
+  auto tokenStream = tokenize(table, input);
+  Parser p(tokenStream);
+  return p.expr();
 }
 
 template <typename T>
   inline void
-  Parser::match(T& t) {
+  Parser::match(const T& t) {
     if (!optMatch(t)) {
       throw std::logic_error("Invalid syntax");
     }
@@ -20,7 +22,7 @@ template <typename T>
 
 template <typename T>
   inline bool
-  Parser::optMatch(T& t) {
+  Parser::optMatch(const T& t) {
     if (t == cur->type) {
       cur++;
       return true;

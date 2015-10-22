@@ -11,6 +11,12 @@ struct Symbol {
   Symbol(const TokType&, const std::string&);
 };
 
+struct IntValueSymbol : public Symbol {
+  int value;
+
+  IntValueSymbol(const TokType&, const std::string&, int);
+};
+
 struct SymbolTable {
   using MapType = std::unordered_map<std::string, Symbol*>;
   using InsertReturnType = std::pair<MapType::iterator, bool>;

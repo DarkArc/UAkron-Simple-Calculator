@@ -28,10 +28,10 @@ struct Parser {
   Expr* expr();
 
   template <typename T>
-    void match(T&);
+    void match(const T&);
 
   template <typename T>
-    bool optMatch(T&);
+    bool optMatch(const T&);
 
   template <typename FactoryType>
     Expr* unaryFactory(Expr*);

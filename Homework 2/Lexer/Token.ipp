@@ -7,7 +7,15 @@ tokenFromTable(SymbolTable& table, const std::string& text, const TokType& tokTy
 
   Symbol* sym;
   if (res.second) {
-    res.first->second = sym = new Symbol(tokType, text);
+    if (tokType == TokType::INT) {
+      res.first->second = sym = new IntValueSymbol(tokType, text, std::stoi(text));
+    } else if (tokType == TokType::KW_TRUE) {
+      res.first->second = sym = new IntValueSymbol(tokType, text, true);
+    } else if (tokType == TokType::KW_FALSE) {
+      res.first->second = sym = new IntValueSymbol(tokType, text, false);
+    } else {
+      res.first->second = sym = new Symbol(tokType, text);
+    }
   } else {
     sym = res.first->second;
   }

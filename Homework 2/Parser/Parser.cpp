@@ -26,7 +26,18 @@ namespace {
 //               | ( expr )
 Expr*
 Parser::primaryExpr() {
+  if (optMatch(TokType::L_PAREN)) {
+    Expr* res = expr();
+    match(TokType::R_PAREN);
+    return res;
+  }
 
+  if (cur->type == TokType::KW_TRUE || cur->type == TokType::KW_FALSE) {
+    return new BinaryValExpr(static_cast<bool>(static_cast<IntValueSymbol*>(cur->sym)->value));
+  } else if (cur->type == TokType::INT) {
+    return new IntegerValExpr(static_cast<IntValueSymbol*>(cur->sym)->value);
+  }
+  throw std::logic_error("Invalid syntax");
 }
 
 // unary-expr -> - unary-expr
