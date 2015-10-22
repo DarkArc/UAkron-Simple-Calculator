@@ -2,6 +2,8 @@
 
 #include "../AST/AST.hpp"
 
+#include <stdexcept>
+
 namespace {
   // Special hash function required for enum class
   // This is a work around for GCC Bug #60970
@@ -37,7 +39,7 @@ Parser::primaryExpr() {
   } else if (cur->type == TokType::INT) {
     return new IntegerValExpr(static_cast<IntValueSymbol*>(cur->sym)->value);
   }
-  throw std::logic_error("Invalid syntax");
+  throw std::runtime_error("Invalid syntax");
 }
 
 // unary-expr -> - unary-expr
