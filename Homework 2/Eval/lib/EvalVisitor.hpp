@@ -1,5 +1,4 @@
-#ifndef EVALVISITOR_HPP
-#define EVALVISITOR_HPP
+#pragma once
 
 #include "../../AST/Expr.hpp"
 #include "../../Visitor.hpp"
@@ -29,16 +28,9 @@ struct EvalVisitor : public Visitor {
   virtual void visit(SubExpr&) override;
 };
 
-inline int eval(Expr& e) {
-  EvalVisitor v;
-  e.accept(v);
-  return v.result;
-}
-
-inline int eval(Expr* e) {
-  return eval(*e);
-}
+int eval(Expr& e);
+int eval(Expr* e);
 
 }
 
-#endif
+#include "EvalVisitor.ipp"

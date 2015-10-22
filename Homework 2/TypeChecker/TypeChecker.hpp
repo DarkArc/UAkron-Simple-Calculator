@@ -27,14 +27,7 @@ struct TypeCheckVisitor : public Visitor {
   virtual void visit(SubExpr&) override;
 };
 
-inline Type* typeCheck(Expr& e) {
-  TypeCheckVisitor v;
-  e.accept(v);
-  return v.result;
-}
-
-inline Type* typeCheck(Expr* e) {
-  return typeCheck(*e);
-}
+Type* typeCheck(Expr& e);
+Type* typeCheck(Expr* e);
 
 #include "TypeChecker.ipp"
