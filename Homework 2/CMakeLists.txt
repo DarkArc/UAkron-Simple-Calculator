@@ -11,7 +11,6 @@ file(GLOB core_lib_SRC
     "AST/*.cpp"
     "Lexer/*.cpp"
     "Parser/*.cpp"
-    "TypeChecker/*.cpp"
 )
 
 add_library(CalcLangLib
@@ -21,6 +20,7 @@ add_library(CalcLangLib
 # Eval Library
 file(GLOB eval_lib_SRC
     "Eval/lib/*.cpp"
+    "TypeChecker/*.cpp"
 )
 
 add_library(CalcEvalLib

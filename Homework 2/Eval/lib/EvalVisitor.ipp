@@ -1,12 +1,14 @@
 namespace EvalLib {
 
-inline int eval(Expr& e) {
+inline EvalValue
+eval(Expr& e) {
   EvalVisitor v;
   e.accept(v);
-  return v.result;
+  return {v.resultType, v.result};
 }
 
-inline int eval(Expr* e) {
+inline EvalValue
+eval(Expr* e) {
   return eval(*e);
 }
 

@@ -9,12 +9,33 @@ namespace {
     }
   }
 
-  Type* assertUnuaryType(UnaryExpr& expr, Type* type) {
+  Type* assertOrReturnUnuaryType(UnaryExpr& expr, Type* type) {
+    if (expr.type != nullptr) {
+      return expr.type;
+    }
+
     ::assertEqual(typeCheck(expr.expr), type);
     return type;
   }
 
-  Type* assertBinaryType(BinaryExpr& expr, Type* type) {
+  Type* assertOrReturnBinarySameType(BinaryExpr& expr) {
+    if (expr.type != nullptr) {
+      return expr.type;
+    }
+
+    Type* leftType = typeCheck(expr.leftExpr);
+    Type* rightType = typeCheck(expr.rightExpr);
+
+    ::assertEqual(leftType, rightType);
+
+    return leftType;;
+  }
+
+  Type* assertOrReturnBinaryType(BinaryExpr& expr, Type* type) {
+    if (expr.type != nullptr) {
+      return expr.type;
+    }
+
     Type* leftType = typeCheck(expr.leftExpr);
     Type* rightType = typeCheck(expr.rightExpr);
 
@@ -26,11 +47,11 @@ namespace {
 }
 
 void TypeCheckVisitor::visit(AddExpr& expr) {
-  result = ::assertBinaryType(expr, getIntType());
+  result = ::assertOrReturnBinaryType(expr, getIntType());
 }
 
 void TypeCheckVisitor::visit(AndExpr& expr) {
-  result = ::assertBinaryType(expr, getBoolType());
+  result = ::assertOrReturnBinaryType(expr, getBoolType());
 }
 
 void TypeCheckVisitor::visit(BinaryValExpr& expr) {
@@ -38,24 +59,19 @@ void TypeCheckVisitor::visit(BinaryValExpr& expr) {
 }
 
 void TypeCheckVisitor::visit(DivExpr& expr) {
-  result = ::assertBinaryType(expr, getBoolType());
+  result = ::assertOrReturnBinaryType(expr, getBoolType());
 }
 
 void TypeCheckVisitor::visit(EqualExpr& expr) {
-  Type* leftType = typeCheck(expr.leftExpr);
-  Type* rightType = typeCheck(expr.rightExpr);
-
-  ::assertEqual(leftType, rightType);
-
-  result = leftType;
+  result = ::assertOrReturnBinarySameType(expr);
 }
 
 void TypeCheckVisitor::visit(GreaterThanEqualExpr& expr) {
-  result = ::assertBinaryType(expr, getIntType());
+  result = ::assertOrReturnBinaryType(expr, getIntType());
 }
 
 void TypeCheckVisitor::visit(GreaterThanExpr& expr) {
-  result = ::assertBinaryType(expr, getIntType());
+  result = ::assertOrReturnBinaryType(expr, getIntType());
 }
 
 void TypeCheckVisitor::visit(IntegerValExpr& expr) {
@@ -63,41 +79,41 @@ void TypeCheckVisitor::visit(IntegerValExpr& expr) {
 }
 
 void TypeCheckVisitor::visit(LessThanEqualExpr& expr) {
-  result = ::assertBinaryType(expr, getIntType());
+  result = ::assertOrReturnBinaryType(expr, getIntType());
 }
 
 void TypeCheckVisitor::visit(LessThanExpr& expr) {
-  result = ::assertBinaryType(expr, getIntType());
+  result = ::assertOrReturnBinaryType(expr, getIntType());
 }
 
 void TypeCheckVisitor::visit(ModExpr& expr) {
-  result = ::assertBinaryType(expr, getIntType());
+  result = ::assertOrReturnBinaryType(expr, getIntType());
 }
 
 void TypeCheckVisitor::visit(MultiExpr& expr) {
-  result = ::assertBinaryType(expr, getIntType());
+  result = ::assertOrReturnBinaryType(expr, getIntType());
 }
 
 void TypeCheckVisitor::visit(NegationExpr& expr) {
-  result = ::assertUnuaryType(expr, getBoolType());
+  result = ::assertOrReturnUnuaryType(expr, getBoolType());
 }
 
 void TypeCheckVisitor::visit(NegExpr& expr) {
-  result = ::assertUnuaryType(expr, getIntType());
+  result = ::assertOrReturnUnuaryType(expr, getIntType());
 }
 
 void TypeCheckVisitor::visit(NotEqualExpr& expr) {
-  result = ::assertBinaryType(expr, getBoolType());
+  result = ::assertOrReturnBinaryType(expr, getBoolType());
 }
 
 void TypeCheckVisitor::visit(OrExpr& expr) {
-  result = ::assertBinaryType(expr, getBoolType());
+  result = ::assertOrReturnBinaryType(expr, getBoolType());
 }
 
 void TypeCheckVisitor::visit(PosExpr& expr) {
-  result = ::assertUnuaryType(expr, getIntType());
+  result = ::assertOrReturnUnuaryType(expr, getIntType());
 }
 
 void TypeCheckVisitor::visit(SubExpr& expr) {
-  result = ::assertBinaryType(expr, getIntType());
+  result = ::assertOrReturnBinaryType(expr, getIntType());
 }

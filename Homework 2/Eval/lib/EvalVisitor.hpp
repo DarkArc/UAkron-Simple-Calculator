@@ -3,10 +3,18 @@
 #include "../../AST/Expr.hpp"
 #include "../../Visitor.hpp"
 
+#include <string>
+
 namespace EvalLib {
+
+struct EvalValue {
+  Type* type;
+  int value;
+};
 
 struct EvalVisitor : public Visitor {
   int result = 0;
+  Type* resultType = nullptr;
 
   virtual void visit(AddExpr&) override;
   virtual void visit(AndExpr&) override;
@@ -28,8 +36,10 @@ struct EvalVisitor : public Visitor {
   virtual void visit(SubExpr&) override;
 };
 
-int eval(Expr& e);
-int eval(Expr* e);
+std::string prettyEval(Expr* e);
+
+EvalValue eval(Expr& e);
+EvalValue eval(Expr* e);
 
 }
 

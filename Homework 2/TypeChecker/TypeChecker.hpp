@@ -1,7 +1,6 @@
 #pragma once
 
-#include "../AST/Expr.hpp"
-#include "../AST/Type.hpp"
+#include "../AST/AST.hpp"
 #include "../Visitor.hpp"
 
 struct TypeCheckVisitor : public Visitor {
