@@ -18,7 +18,7 @@ namespace {
     return type;
   }
 
-  Type* assertOrReturnBinarySameType(BinaryExpr& expr) {
+  Type* assertOrReturnBinarySameType(BinaryExpr& expr, Type* type) {
     if (expr.type != nullptr) {
       return expr.type;
     }
@@ -28,7 +28,7 @@ namespace {
 
     ::assertEqual(leftType, rightType);
 
-    return leftType;;
+    return type;
   }
 
   Type* assertOrReturnBinaryType(BinaryExpr& expr, Type* type) {
@@ -63,7 +63,7 @@ void TypeCheckVisitor::visit(DivExpr& expr) {
 }
 
 void TypeCheckVisitor::visit(EqualExpr& expr) {
-  result = ::assertOrReturnBinarySameType(expr);
+  result = ::assertOrReturnBinarySameType(expr, getBoolType());
 }
 
 void TypeCheckVisitor::visit(GreaterThanEqualExpr& expr) {
