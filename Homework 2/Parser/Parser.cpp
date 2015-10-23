@@ -3,6 +3,7 @@
 #include "../AST/AST.hpp"
 
 #include <stdexcept>
+#include <iostream>
 
 namespace {
   // Special hash function required for enum class
@@ -35,9 +36,13 @@ Parser::primaryExpr() {
   }
 
   if (cur->type == TokType::KW_TRUE || cur->type == TokType::KW_FALSE) {
-    return new BinaryValExpr(static_cast<bool>(static_cast<IntValueSymbol*>(cur->sym)->value));
+    auto expr = new BinaryValExpr(static_cast<bool>(static_cast<IntValueSymbol*>(cur->sym)->value));
+    ++cur;
+    return expr;
   } else if (cur->type == TokType::INT) {
-    return new IntegerValExpr(static_cast<IntValueSymbol*>(cur->sym)->value);
+    auto expr = new IntegerValExpr(static_cast<IntValueSymbol*>(cur->sym)->value);
+    ++cur;
+    return expr;
   }
   throw std::runtime_error("Invalid syntax");
 }

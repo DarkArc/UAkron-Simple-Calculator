@@ -1,5 +1,4 @@
 #include <sstream>
-#include <iostream>
 
 inline
 ReparseStream::ReparseStream(std::istream& input) : input(&input) { }
