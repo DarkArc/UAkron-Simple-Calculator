@@ -1,3 +1,6 @@
+#include <sstream>
+#include <iostream>
+
 inline
 ReparseStream::ReparseStream(std::istream& input) : input(&input) { }
 
@@ -40,6 +43,9 @@ Lexer::readLA() {
 
 inline std::vector<Token>
 tokenize(SymbolTable& symTable, std::istream& input) {
-  Lexer l(symTable, input);
+  std::string str;
+  std::getline(input, str);
+  std::stringstream ss(str);
+  Lexer l(symTable, ss);
   return l.tokenize();
 }

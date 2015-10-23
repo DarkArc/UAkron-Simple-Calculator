@@ -25,22 +25,33 @@ ReparseStream::reparse(const std::string& str) {
   if (!reparseText.empty()) {
     std::runtime_error("Illegal lexer state!");
   }
-  std::reverse_copy(str.begin(), str.end(), reparseText.rbegin());
+  reparseText = str;
 }
 
 bool
 Predictor::operator () (const std::string& str) {
-  auto strIt = str.cbegin();
-  for (auto it = prediction.cbegin(); it != prediction.cend(); ++it) {
-    if (strIt == str.cend() || *it != *(strIt++)) {
+  auto strCur = str.begin();
+
+  for (auto&& aChar : prediction) {
+    if (*strCur == aChar) {
+      ++strCur;
+    } else {
       return false;
     }
   }
 
-  for (; !stream->eof(); ++strIt) {
-    char newChar = stream->readLA();
-    prediction += newChar;
-    if (strIt == str.cend() || *strIt != newChar) {
+  while (strCur != str.end()) {
+    char aChar = stream->readLA();
+
+    if (stream->eof()) {
+      return false;
+    }
+
+    prediction += aChar;
+
+    if (*strCur == aChar) {
+      ++strCur;
+    } else {
       return false;
     }
   }
@@ -138,15 +149,10 @@ Lexer::tokenize() {
 
 void
 Lexer::consumeInt(char& curChar, Predictor& predict) {
-  bool eof;
-  while (!(eof = input.eof()) && std::isdigit(readLA())) { }
+  while (!input.eof() && std::isdigit(curChar = readLA())) { }
 
-  // If we didn't hit the eof, we must have hit a characters
-  // throw that char back into the ReparseStream
-  if (!eof) {
-    text.pop_back();
-    input.reparse({curChar});
-  }
+  text.pop_back();
+  input.reparse({curChar});
 
   addTok(TokType::INT, predict);
 }
