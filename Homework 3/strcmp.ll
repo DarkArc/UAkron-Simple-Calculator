@@ -14,8 +14,8 @@ define i32 @strcmp(i8* %str1, i8* %str2) {
   %6 = getelementptr inbounds i8, i8* %5, i64 %4    ; Fetch the memory address of the src1 register char with count offset
   %7 = load i8, i8* %6, align 1                     ; Load the value
   %8 = sext i8 %7 to i32                            ; Extend the sign to 32-bit
-  %9 = load i8*, i8** %2, align 8                  ; Load the ptr in the char of str2 register
-  %10 = getelementptr inbounds i8, i8* %9, i64 %4  ; Fetch the memory address of the src2 register char with count offset
+  %9 = load i8*, i8** %2, align 8                   ; Load the ptr in the char of str2 register
+  %10 = getelementptr inbounds i8, i8* %9, i64 %4   ; Fetch the memory address of the src2 register char with count offset
   %11 = load i8, i8* %10, align 1                   ; Load the value
   %12 = sext i8 %11 to i32                          ; Extend the sign to 32-bit
   %13 = sub nsw i32 %8, %12                         ; Subtract str1 char from str2 char
