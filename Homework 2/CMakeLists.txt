@@ -2,17 +2,15 @@ cmake_minimum_required(VERSION 3.1)
 
 # Project Declaration
 project(CalcLangLib CXX)
-
 project(CalcEval CXX)
-
 
 # Core Library
 file(GLOB calc_lib_SRC
-    "AST/*.cpp"
-    "Lexer/*.cpp"
-    "Parser/*.cpp"
-    "TypeChecker/*.cpp"
-    "Eval/lib/*.cpp"
+  "AST/*.cpp"
+  "Lexer/*.cpp"
+  "Parser/*.cpp"
+  "TypeChecker/*.cpp"
+  "Eval/lib/*.cpp"
 )
 
 add_library(CalcLangLib
@@ -21,7 +19,7 @@ add_library(CalcLangLib
 
 # Evaluation Program
 file(GLOB eval_SRC
-    "Eval/*.cpp"
+  "Eval/*.cpp"
 )
 
 add_executable(CalcEval
