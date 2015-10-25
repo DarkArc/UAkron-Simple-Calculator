@@ -42,9 +42,12 @@ Lexer::readLA() {
 
 inline std::vector<Token>
 tokenize(SymbolTable& symTable, std::istream& input) {
-  std::string str;
-  std::getline(input, str);
-  std::stringstream ss(str);
-  Lexer l(symTable, ss);
-  return l.tokenize();
+  Lexer l(symTable, input);
+  auto tokenStream = l.tokenize();
+
+  if (tokenStream.empty()) {
+    throw std::runtime_error("No tokens presented in input stream");
+  }
+
+  return tokenStream;
 }
