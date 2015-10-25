@@ -62,12 +62,15 @@ Predictor::operator () (const std::string& str) {
 
 std::vector<Token>
 Lexer::tokenize() {
-  while (!input.eof()) {
-    // When the predictor goes out of scope
-    // if has been used, but failed to find a prediction
-    // the characters will re-enter the lexer
+  while (true) {
+    char curChar = readLA();
+
+    if (input.eof()) {
+      break;
+    }
+
     Predictor predict(input, *this);
-    switch (char curChar = readLA()) {
+    switch (curChar) {
       case ' ':
       case '\t':
       case '\n':
@@ -144,12 +147,13 @@ Lexer::tokenize() {
           break;
         }
         addOrigTok(TokType::GREATER_THAN, predict);
+        break;
       default:
         if (std::isdigit(curChar)) {
           consumeInt(curChar, predict);
           break;
         }
-        // TODO complain
+        throw std::runtime_error("Illegal character encountered!");
     }
   }
   return out;
