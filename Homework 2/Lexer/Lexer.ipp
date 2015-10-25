@@ -26,11 +26,11 @@ Lexer::addTok(const TokType& tok, Predictor& predictor) {
 
 inline void
 Lexer::addOrigTok(const TokType& tok, Predictor& predictor) {
-  std::string* prediction = &predictor.prediction;
-  out.push_back(tokenFromTable(*symTable, text.substr(0, text.size() - prediction->size()), tok));
-  text = *prediction;
+  out.push_back(tokenFromTable(*symTable, text, tok));
+  text.clear();
 
-  prediction->clear();
+  input.reparse(predictor.prediction);
+  predictor.prediction.clear();
 }
 
 inline char

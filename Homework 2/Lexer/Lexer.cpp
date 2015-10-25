@@ -97,43 +97,51 @@ Lexer::tokenize() {
       case 't':
         if (predict("rue")) {
           addTok(TokType::KW_TRUE, predict);
+          break;
         }
         break;
       case 'f':
         if (predict("alse")) {
           addTok(TokType::KW_FALSE, predict);
+          break;
         }
         break;
       case '&':
         if (predict("&")) {
           addTok(TokType::AND, predict);
+          break;
         }
         break;
       case '|':
         if (predict("|")) {
           addTok(TokType::OR, predict);
+          break;
         }
         break;
       case '!':
         if (predict("=")) {
           addTok(TokType::NOT_EQ, predict);
+          break;
         }
         addOrigTok(TokType::NOT, predict);
         break;
       case '=':
         if (predict("=")) {
           addTok(TokType::EQUAL, predict);
+          break;
         }
         break;
       case '<':
         if (predict("=")) {
           addTok(TokType::LESS_THAN_EQ, predict);
+          break;
         }
         addOrigTok(TokType::LESS_THAN, predict);
         break;
       case '>':
         if (predict("=")) {
           addTok(TokType::GREATHER_THAN_EQ, predict);
+          break;
         }
         addOrigTok(TokType::GREATER_THAN, predict);
       default:
