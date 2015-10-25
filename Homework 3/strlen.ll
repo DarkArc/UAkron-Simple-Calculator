@@ -1,4 +1,4 @@
-define i64 @strlen(i8* %str) #0 {
+define i64 @strlen(i8* %str) {
   %1 = alloca i8*, align 8                       ; Allocate space for one char of str
   %i = alloca i64, align 8                       ; Allocate space for the count
   store i8* %str, i8** %1, align 8               ; Store a ptr to the first char of str
