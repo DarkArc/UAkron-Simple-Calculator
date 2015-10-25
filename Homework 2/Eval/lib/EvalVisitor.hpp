@@ -14,7 +14,6 @@ struct EvalValue {
 
 struct EvalVisitor : public Visitor {
   int result = 0;
-  Type* resultType = nullptr;
 
   virtual void visit(AddExpr&) override;
   virtual void visit(AndExpr&) override;
